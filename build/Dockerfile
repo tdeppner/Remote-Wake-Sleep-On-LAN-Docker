@@ -23,8 +23,10 @@ RUN git clone https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server.git &&
     chmod u+s `which ping`
 
 COPY ports.conf /etc/apache2/
+COPY health-check.conf /etc/apache2/sites-available/
 
 RUN a2enmod headers &&\
+    a2ensite health-check &&\
     service apache2 restart &&\
     mv -f Remote-Wake-Sleep-On-LAN-Server/apache2_configs/000-default_http.conf /etc/apache2/sites-available/000-default.conf &&\
     sed -i.bak "s/expose_php = On/expose_php = Off/g" /etc/php/8.3/apache2/php.ini &&\
@@ -38,6 +40,7 @@ RUN a2enmod headers &&\
     rm -f /var/www/html/index.html
 
 COPY config.php /var/www/html/config.php
+COPY ping.php /var/www/html/ping.php
 COPY entrypoint.sh /
 
 ENV APACHE2_PORT=80
@@ -51,3 +54,5 @@ ENV RWSOLS_SLEEP_PORT=7760
 ENV RWSOLS_SLEEP_CMD=suspend
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+HEALTHCHECK CMD bash -c "exec 3<>/dev/tcp/localhost/${APACHE2_PORT}; echo -e 'GET /health HTTP/1.0\r\n\r' >&3; cat <&3 | grep -q '^OK$'"
