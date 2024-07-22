@@ -46,4 +46,5 @@
 	// Two directories up? Set too "../../"
 	// etc...
 	$BOOTSTRAP_LOCATION_PREFIX = "";
-?>
+
+    $DEBUG = false;
