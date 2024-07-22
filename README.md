@@ -1,10 +1,25 @@
-:warning: **This repo is currently no longer maintained, feel free to fork it tho :)**
 # Remote-Wake-Sleep-On-LAN-Docker
 A docker image of [sciguy14/Remote-Wake-Sleep-On-LAN-Server](https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server).
 
 Dockerhub: https://hub.docker.com/r/ex0nuss/remote-wake-sleep-on-lan-docker
 
-Weekly updated :)
+## What to expect from me (tdeppner):
+
+This is a fork of ex0nuss fine work, but why did I fork it, and what can you expect?
+
+### As of July 2024
+1) My goal is to always have moderately current (3-6 months old) docker image.
+- If a security issue is found, there'll likely be a quicker update, though I do not expect that to be a significant situation given the placement of and exposure of this type of service.
+
+2) My standard docker image expectations are
+- Image as small as reasonable, minimize bloat, etc.
+- Rely on docker container idempotence (stopping and _even_ rm-ing a container should alway be safe. Always use -v to mount directories or volumes as warranted.)
+- Have an internal healthcheck, and where possible an externally available one.
+
+3) Patches, requests, etc, are fine.
+- I do not expect a lot of feature changes, this is a reasonably complete tool at this point.
+- If there's an upstream change you really like and this image could benefit from a quicker rebuilt, feel free to reach out.
+- ex0nuss made a fine tool, it has a place in a homelab with various hardware, it's a shame to see it languish, be subsumed by security concerns, or just be so terribly out of date you're not sure.
 
 ## Summary
 
@@ -58,7 +73,7 @@ Parameter / Env var | Optional | Default value | Description
 ------------ | :-------------: | ------------- | -------------
 `network_mode: host` | no | / | The container’s network stack is not isolated from the Docker host. This is necessary to send WOL packages from a container. The port of the webserver is configured via `APACHE2_PORT`.
 `APACHE2_PORT` | yes | 8080 | Port of the webinterface.
-`PASSPHRASE` | yes | admin | Password of the webinterface.
+`PASSPHRASE` | yes | admin | Password of the webinterface. If no password is specified, you don't need a password to wake a PC.
 `RWSOLS_COMPUTER_NAME` | no | / | Displaynames for the computers (**array**)<br>(**No spaces supported.** Please use hyphens or underscores)
 `RWSOLS_COMPUTER_MAC` | no | / | MAC addresses for the computers (**array**)
 `RWSOLS_COMPUTER_IP` | no | / | IP addresses for the computers (**array**)

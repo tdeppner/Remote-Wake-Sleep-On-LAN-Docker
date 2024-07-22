@@ -9,7 +9,6 @@ services:
     network_mode: host
     environment:
       - APACHE2_PORT=9898
-        # PASSPHRASE cannot be empty!
       - PASSPHRASE=MyPassword
       - RWSOLS_COMPUTER_NAME="Pc1","Pc2"
       - RWSOLS_COMPUTER_MAC="XX:XX:XX:XX:XX:XX","XX:XX:XX:XX:XX:XX"
