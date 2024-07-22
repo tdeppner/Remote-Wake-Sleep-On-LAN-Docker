@@ -18,15 +18,12 @@ compgen -A variable RWSOLS_ | while read v; do
   fi
 done
 
-#Settings RWSOLS_HASH for keyphrase
-RWSOLS_HASH=$(echo -n $PASSPHRASE | sha256sum | cut -d " " -f 1)
+RWSOLS_HASH=$(php -r "echo password_hash(trim('${PASSPHRASE}'), PASSWORD_DEFAULT);")
 search_and_replace RWSOLS_HASH $RWSOLS_HASH
-
 
 #APACHE2 port mapping
 echo "search_and_replace port 8080 with $APACHE2_PORT"
 sed -i 's|'8080'|'$APACHE2_PORT'|g' '/etc/apache2/ports.conf'
-
 
 #Starting apache2
 echo "Starting Apache2: /usr/sbin/apache2ctl -D FOREGROUND"

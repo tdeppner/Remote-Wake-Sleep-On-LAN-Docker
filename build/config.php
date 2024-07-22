@@ -12,10 +12,9 @@
 	// Set the below to "true" (no quotes) to enforce HTTPS connections (don't forget to create a self-signed cert and enable it in Apache2)
 	$USE_HTTPS = false;
 
-	// Choose a passphrase and find the sha256 hash of that passphrase.
-	// You can use an online calculator to generate the hash: http://www.xorbin.com/tools/sha256-hash-calculator.
-	// Unless you are using an SSL connection to your server, remember that passphrases can still be obtained via a man-in-the-middle attack.
-	$APPROVED_HASH = "RWSOLS_HASH";
+	// Now a php password() value, which contains dollar signs, so must use single quotes.
+	// Will be generated and substituted based on PASSPHRASE env variable via entrypoint.sh.
+	$APPROVED_HASH = 'RWSOLS_HASH';
 
 	// This is the number of times that the WOL server will try to ping the target computer to check if it has woken up. Default = 15.
 	$MAX_PINGS = REPLACE_RWSOLS_MAX_PINGS;
