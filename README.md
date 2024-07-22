@@ -13,13 +13,17 @@ This is a fork of ex0nuss fine work, but why did I fork it, and what can you exp
 
 2) My standard docker image expectations are
 - Image as small as reasonable, minimize bloat, etc.
-- Rely on docker container idempotence (stopping and _even_ rm-ing a container should alway be safe. Always use -v to mount directories or volumes as warranted.)
+- Rely on docker container idempotence (stopping and _even_ rm-ing a container should alway be safe.)
+  - Use -v to mount directories or volumes as warranted.
+  - Have backups. (Using mounted directories is often easier to backup than a docker volume.)
 - Have an internal healthcheck, and where possible an externally available one.
+- No SSL or certbot in the container.
+  - Have a traefik container (or your reverse proxy of choice) running which can provide for SSL certs for any docker images that request it.
 
-3) Patches, requests, etc, are fine.
-- I do not expect a lot of feature changes, this is a reasonably complete tool at this point.
-- If there's an upstream change you really like and this image could benefit from a quicker rebuilt, feel free to reach out.
-- ex0nuss made a fine tool, it has a place in a homelab with various hardware, it's a shame to see it languish, be subsumed by security concerns, or just be so terribly out of date you're not sure.
+3) Patches, requests, etc, are welcomed.
+- I do not expect (personally) to do many feature changes, this is a reasonably complete tool at this point.
+- If there's an upstream change you really like and this image could benefit from a quicker rebuild, feel free to reach out.
+- ex0nuss made a fine tool, it has a place in a homelab (or small production shop) with various hardware, it's a shame to see it languish, be subsumed by security concerns, or just be so terribly out of date you're not sure.
 
 ## Summary
 
@@ -34,9 +38,8 @@ This is a fork of ex0nuss fine work, but why did I fork it, and what can you exp
 ## Usage
 Here are some example snippets to help you get started creating a container.
 
-### docker-compose (recommended)
+### docker compose (recommended)
 ```YAML
-version: "3"
 
 services:
   frontend-rwsols:
@@ -128,3 +131,46 @@ Now you just format the table in an array:
 >      - RWSOLS_COMPUTER_IP="192.168.1.146","192.168.1.177"
 >```
 >It's important to use the format as shown: `Env_var="XXX","XXX"`
+
+## Health checking
+
+### Web based (for example using curl or a monitoring tool like uptime-kuma)
+
+The health endpoint is /health, and it should return only the word OK (and a courtesy newline).
+
+**curl \<url:port\>/health**
+
+For example:
+```
+$ curl localhost:9898/health
+OK
+```
+
+#### [Uptime-kuma example](https://github.com/louislam/uptime-kuma)
+Add New Monitor
+Field | Value
+----- | -----
+Monitor Type | HTTP(s) - Keyword
+Friendly Name | RWSOL
+URL | https://rwsol.mydomain.example.com/health
+Keyword | OK
+
+
+### From the local shell
+
+```
+# docker ps
+```
+
+**Healthy example**
+```
+$ docker ps
+CONTAINER ID   IMAGE                                     COMMAND                  CREATED          STATUS                    PORTS                                       NAMES
+e6d1bc47fab2   ex0nuss/remote-wake-sleep-on-lan-docker   "/entrypoint.sh"         15 minutes ago   Up 15 minutes (healthy)                                               development-rwsols
+```
+
+**Unhealthy example**
+```
+CONTAINER ID   IMAGE                                     COMMAND                  CREATED         STATUS                     PORTS                                       NAMES
+9b7639dd3d39   ex0nuss/remote-wake-sleep-on-lan-docker   "/entrypoint.sh"         3 minutes ago   Up 3 minutes (unhealthy)                                               development-rwsols
+```
