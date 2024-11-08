@@ -1,17 +1,17 @@
 # Remote-Wake-Sleep-On-LAN-Docker
 A docker image of [sciguy14/Remote-Wake-Sleep-On-LAN-Server](https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server).
 
-Dockerhub: https://hub.docker.com/r/ex0nuss/remote-wake-sleep-on-lan-docker
+Dockerhub: https://hub.docker.com/r/tdeppner/remote-wake-sleep-on-lan-docker
 
-## What to expect from me (tdeppner):
+This is a forked and updated spin of RWSOL, keeping pretty closely to ex0nuss' original work, see https://hub.docker.com/r/ex0nuss/remote-wake-sleep-on-lan-docker for the precursor. That earlier work is now older (2+ years) and is no longer maintained, thus this fork.
 
-This is a fork of ex0nuss fine work, but why did I fork it, and what can you expect?
+## What to expect from this fork?
 
-### As of July 2024
-1) My goal is to always have moderately current (3-6 months old) docker image.
+### Goals
+1) Have moderately current (3-6 months old at most) docker image.
 - If a security issue is found, there'll likely be a quicker update, though I do not expect that to be a significant situation given the placement of and exposure of this type of service.
 
-2) My standard docker image expectations are
+2) Standard docker image expectations:
 - Image as small as reasonable, minimize bloat, etc.
 - Rely on docker container idempotence (stopping and _even_ rm-ing a container should alway be safe.)
   - Use -v to mount directories or volumes as warranted.
@@ -29,7 +29,7 @@ This is a fork of ex0nuss fine work, but why did I fork it, and what can you exp
 
 > The Remote Wake/Sleep-on-LAN Server (RWSOLS) is a simple webapp that runs on Docker to remotely power up any computer via WOL. </br> This is necesarry, since WOL packages (Layer&nbsp;2) cannot be forwarded via a normal VPN (Layer&nbsp;3).
 
-![preview img](https://raw.githubusercontent.com/ex0nuss/Remote-Wake-Sleep-On-LAN-Docker/main/IMG_webinterface_preview.png)
+![preview img](https://raw.githubusercontent.com/tdeppner/Remote-Wake-Sleep-On-LAN-Docker/main/IMG_webinterface_preview.png)
 
 **Information:**
 - You don't need any additonal software to wake your client via WOL.
@@ -43,7 +43,7 @@ Here are some example snippets to help you get started creating a container.
 
 services:
   frontend-rwsols:
-    image: ex0nuss/remote-wake-sleep-on-lan-docker
+    image: tdeppner/remote-wake-sleep-on-lan-docker
     container_name: frontend-rwsols
     restart: unless-stopped
     network_mode: host
@@ -66,7 +66,7 @@ docker run -d \
   -e 'RWSOLS_COMPUTER_MAC="XX:XX:XX:XX:XX:XX","XX:XX:XX:XX:XX:XX"' \
   -e 'RWSOLS_COMPUTER_IP="192.168.1.45","192.168.1.50"' \
   --restart unless-stopped \
-  ex0nuss/remote-wake-sleep-on-lan-docker
+  tdeppner/remote-wake-sleep-on-lan-docker
 ```
 
 ## Parameters and environment variables
@@ -166,11 +166,11 @@ Keyword | OK
 ```
 $ docker ps
 CONTAINER ID   IMAGE                                     COMMAND                  CREATED          STATUS                    PORTS                                       NAMES
-e6d1bc47fab2   ex0nuss/remote-wake-sleep-on-lan-docker   "/entrypoint.sh"         15 minutes ago   Up 15 minutes (healthy)                                               development-rwsols
+e6d1bc47fab2   tdeppner/remote-wake-sleep-on-lan-docker   "/entrypoint.sh"         15 minutes ago   Up 15 minutes (healthy)                                               development-rwsols
 ```
 
 **Unhealthy example**
 ```
 CONTAINER ID   IMAGE                                     COMMAND                  CREATED         STATUS                     PORTS                                       NAMES
-9b7639dd3d39   ex0nuss/remote-wake-sleep-on-lan-docker   "/entrypoint.sh"         3 minutes ago   Up 3 minutes (unhealthy)                                               development-rwsols
+9b7639dd3d39   tdeppner/remote-wake-sleep-on-lan-docker   "/entrypoint.sh"         3 minutes ago   Up 3 minutes (unhealthy)                                               development-rwsols
 ```

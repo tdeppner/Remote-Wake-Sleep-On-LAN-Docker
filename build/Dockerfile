@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-MAINTAINER ex0nuss
+MAINTAINER tdeppner
 
 ## for apt to be noninteractive
 ENV DEBIAN_FRONTEND noninteractive
