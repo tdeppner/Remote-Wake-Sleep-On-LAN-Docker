@@ -3,7 +3,7 @@ version: "3"
 services:
   development-rwsols:
     build: ./build
-    image: tdeppner/remote-wake-sleep-on-lan-docker:dev
+    image: tdeppner/remote-wake-sleep-on-lan-docker
     container_name: development-rwsols
     restart: unless-stopped
     network_mode: host
