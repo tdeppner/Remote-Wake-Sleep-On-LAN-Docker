@@ -6,14 +6,15 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 RUN apt-get -y update && \
-    apt install -y \
+    apt install --no-install-recommends -y \
     apache2 \
     php \
     php-curl \
     libapache2-mod-php \
-    libcurl4-gnutls-dev \
     iputils-ping \
+    netbase \
     wakeonlan \
+    ca-certificates \
     git && \
     rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
