@@ -15,12 +15,14 @@ RUN apt-get -y update && \
     netbase \
     wakeonlan \
     ca-certificates \
-    git && \
+    git \
+    unminimize- && \
     rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 WORKDIR /root
-RUN git clone https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server.git &&\
-    chown root: /var/www/html &&\
+RUN git clone https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server.git && \
+    (cd Remote-Wake-Sleep-On-LAN-Server/ && (git remote -v; git log -1) > /root/rwsols.commit.txt) && \
+    chown root: /var/www/html && \
     chmod u+s `which ping`
 
 COPY ports.conf /etc/apache2/

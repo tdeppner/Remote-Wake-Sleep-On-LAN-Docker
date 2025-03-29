@@ -26,6 +26,6 @@ container_versions: dummy
 		--rm \
 		--entrypoint /bin/bash \
 		"${DEV_IMAGE}" \
-		-c 'dpkg -l' > container_versions.txt
+		-c 'dpkg -l; echo; cat /root/rwsols.commit.txt' > container_versions.txt
 
 dummy:
