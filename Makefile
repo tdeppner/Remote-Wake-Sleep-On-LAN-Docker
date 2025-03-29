@@ -1,6 +1,6 @@
 UPSTREAM_IMAGES = $(shell grep ^FROM build/Dockerfile | cut -f2 -d' ')
-DEV_IMAGE = $(shell grep image: docker-compose.yml | cut -f2- -d: | xargs)
-DEV_PORT = $(shell grep APACHE2_PORT= docker-compose.yml | cut -f2 -d=)
+DEV_IMAGE = $(shell grep image: compose.yml | cut -f2- -d: | xargs)
+DEV_PORT = $(shell grep APACHE2_PORT= compose.yml | cut -f2 -d=)
 
 build: dummy
 	@echo pulling upstream images
