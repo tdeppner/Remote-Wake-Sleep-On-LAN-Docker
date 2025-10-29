@@ -1,9 +1,9 @@
 FROM ubuntu:latest
-MAINTAINER tdeppner
+LABEL org.opencontainers.image.authors="tdeppner"
 
 ## for apt to be noninteractive
-ENV DEBIAN_FRONTEND noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN true
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN=true
 
 RUN apt-get -y update && \
     apt install --no-install-recommends -y \
